@@ -4,11 +4,6 @@ import useGetPlaces from "../../api/useGetPlaces";
 import { ErrorSection } from "../Error";
 import { LoadingSection } from "../Loading";
 
-// ui 를 보여주는것과 데이터 정리 역할을 다 하고 잇는중
-// 데이터의 형식과 우리가 쓰려는 형식이 같다는 보장이 없다.
-// 그렇기때문에 가공이 필요하다.
-// 컴포넌트에서 해도 되지 않나?
-// ==> 가공 데이터가 망가지면 ui 가 망가질수도 있다.
 export const RestaurantsContainer = () => {
   const { data: restaurants, isLoading, error } = useGetPlaces();
 
