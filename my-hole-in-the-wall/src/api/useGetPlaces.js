@@ -7,6 +7,10 @@ const useGetPlaces = () => {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
+  // const { data, isLoading, error } = useFetch(`${baseUrl}/wrong`, {
+  //   method: "GET",
+  //   headers: { "Content-Type": "application/json" },
+  // });
 
   return {
     data: convertImagePath(data, baseUrl),
