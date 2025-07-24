@@ -1,10 +1,9 @@
 import { useMemo } from "react";
-import convertImagePath from "./convertImagePath";
 import useFetch from "./useFetch";
 const baseUrl = import.meta.env.VITE_BASEURL;
 
-const useGetPlaces = () => {
-  const url = `${baseUrl}/places`;
+const useGetFavoritePlaces = () => {
+  const url = `${baseUrl}/users/places`;
   const fetchOptions = useMemo(
     () => ({
       method: "GET",
@@ -12,17 +11,25 @@ const useGetPlaces = () => {
     }),
     []
   );
-  const { data, isLoading, error } = useFetch(url, fetchOptions);
+
+  const {
+    data: favoriteRestaurants,
+    isLoading,
+    error,
+    refetch: refetchFavoritePlaces,
+  } = useFetch(url, fetchOptions);
+
   // const { data, isLoading, error } = useFetch(`${baseUrl}/wrong`, {
   //   method: "GET",
   //   headers: { "Content-Type": "application/json" },
   // });
 
   return {
-    data: convertImagePath(data, baseUrl),
+    favoriteRestaurants,
     isLoading,
     error,
+    refetchFavoritePlaces,
   };
 };
 
-export default useGetPlaces;
+export default useGetFavoritePlaces;
