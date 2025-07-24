@@ -10,13 +10,12 @@ const useFetch = (url, options) => {
   // const setIsLoading = (newValue) => {
   //   isLoading = newValue;
   // };
-
   const getData = useCallback(async () => {
-    console.log("✅ getData 실행됨:", url);
+    // console.log("✅ getData 실행됨:", url);
     try {
       const res = await fetch(url, options);
-      console.log("🔁 응답 받음:", res);
-      console.log(res.ok);
+      // console.log("🔁 응답 받음:", res);
+      // console.log(res.ok);
 
       // 네트워크 오류가 아닌 이상 다른 에러들은 모두 try 문으로 넘어온다.
       // 정상 응답으로 간주하기 때문이다.
@@ -42,9 +41,10 @@ const useFetch = (url, options) => {
 
       const json = await res.json();
       setData(json);
+      return json;
     } catch (err) {
       // 여기로 넘어오는 것은 네트워크 오류(인터넷 끊김, cors 에러 등)
-      console.error("❌ catch 안에서 잡은 에러:", err);
+      // console.error("❌ catch 안에서 잡은 에러:", err);
       setError({
         status: err.status ?? "NETWORK_ERROR",
         message: err.message || "서버에 연결할 수 없습니다.",
@@ -55,11 +55,18 @@ const useFetch = (url, options) => {
   }, [url]);
 
   useEffect(() => {
-    console.log("🚀 useEffect 실행됨:", url);
-    console.log(isLoading);
+    // console.log("🚀 useEffect 실행됨:", url);
 
     if (url) getData();
-  }, [url, getData]);
-  return { isLoading, data, error };
+  }, [url]);
+
+  const refetch = useCallback(() => {
+    setIsLoading(true);
+    setError(null);
+    setData(null);
+    return getData();
+  }, [getData]); // ✅ fetchData가 고정되어 있으므로 안전함
+
+  return { isLoading, data, error, refetch };
 };
 export default useFetch;
